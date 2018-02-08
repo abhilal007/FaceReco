@@ -47,7 +47,7 @@ def wiki():
 def capture():
     import base64
     import face_recognition
-    image = request.post_vars['value']
+    image = request.post_vars('value')
     fh = open("image.png", "wb")
     fh.write(base64.decodestring(image))
     fh.close()
