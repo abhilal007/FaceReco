@@ -59,3 +59,10 @@ CREATE TABLE "mytable"(
     "myfield" CHAR(512)
 );
 success!
+timestamp: 2018-01-19T16:48:06.908345
+CREATE TABLE "Course"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "course_name" CHAR(512),
+    "code_code" CHAR(512)
+);
+success!

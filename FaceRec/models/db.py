@@ -136,7 +136,7 @@ if configuration.get('scheduler.enabled'):
 #
 # >>> 
 db.define_table('mytable', Field('myfield', 'string'))
-db.define_table('Course', Field('course', 'string'))
+db.define_table('Course', Field('course_name', 'string'), Field('code_code', 'string'))
 #
 # Fields can be 'string','text','password','integer','double','boolean'
 #       'date','time','datetime','blob','upload', 'reference TABLENAME'

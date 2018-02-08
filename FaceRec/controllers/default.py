@@ -9,6 +9,20 @@ def index():
     response.flash = T("Hello World")
     return dict(message=T('Welcome to web2py!'))
 
+def course_old():
+    return dict(message=T('aaaa'))
+
+def course():
+   form = SQLFORM(db.Course)
+   if form.process().accepted:
+       response.flash = 'form accepted'
+   elif form.errors:
+       response.flash = 'form has errors'
+   else:
+       response.flash = 'please fill out the form'
+   form.add_button('update form', URL('course'))
+   return dict(message=form)
+
 # ---- API (example) -----
 @auth.requires_login()
 def api_get_user_email():
@@ -27,7 +41,20 @@ def grid():
 # ---- Embedded wiki (example) ----
 def wiki():
     auth.wikimenu() # add the wiki to the menu
-    return auth.wiki() 
+    return auth.wiki()
+
+#Image processing
+def capture():
+  import base64
+  import face_recognition
+  image = request.var['value']
+  fh = open("image.png", "wb")
+  fh.write(base64.decodestring(image))
+  fh.close()
+  reco = face_recognition.load_image_file("image.png")
+  reco_encoding = face_recognition.face_encodings(reco)[0]
+
+
 
 # ---- Action for login/register/etc (required for auth) -----
 def user():

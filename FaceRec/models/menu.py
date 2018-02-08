@@ -17,6 +17,7 @@ if not configuration.get('app.production'):
     _app = request.application
     response.menu += [
         (T('My Sites'), False, URL('admin', 'default', 'site')),
+        (T('course'), False, URL('default', 'course')),
         (T('This App'), False, '#', [
             (T('Design'), False, URL('admin', 'default', 'design/%s' % _app)),
             (T('Controller'), False,
