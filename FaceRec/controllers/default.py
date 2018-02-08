@@ -45,15 +45,15 @@ def wiki():
 
 #Image processing
 def capture():
-  import base64
-  import face_recognition
-  image = request.var['value']
-  fh = open("image.png", "wb")
-  fh.write(base64.decodestring(image))
-  fh.close()
-  reco = face_recognition.load_image_file("image.png")
-  reco_encoding = face_recognition.face_encodings(reco)[0]
-
+    import base64
+    import face_recognition
+    image = request.post_vars['value']
+    fh = open("image.png", "wb")
+    fh.write(base64.decodestring(image))
+    fh.close()
+    reco = face_recognition.load_image_file("image.png")
+    reco_encoding = face_recognition.face_encodings(reco)[0]
+    return reco_encoding
 
 
 # ---- Action for login/register/etc (required for auth) -----
