@@ -3,6 +3,12 @@
 # This is a sample controller
 # this file is released under public domain and you can use without limitations
 # -------------------------------------------------------------------------
+import base64
+import face_recognition
+import os
+from gluon import current
+from gluon.serializers import json
+import numpy
 
 # ---- example index page ----
 def index():
@@ -12,16 +18,16 @@ def index():
 def course_old():
     return dict(message=T('aaaa'))
 
-def course():
-   form = SQLFORM(db.Course)
-   if form.process().accepted:
-       response.flash = 'form accepted'
-   elif form.errors:
-       response.flash = 'form has errors'
-   else:
-       response.flash = 'please fill out the form'
-   form.add_button('update form', URL('course'))
-   return dict(message=form)
+# def course():
+#    form = SQLFORM(db.Course)
+#    if form.process().accepted:
+#        response.flash = 'form accepted'
+#    elif form.errors:
+#        response.flash = 'form has errors'
+#    else:
+#        response.flash = 'please fill out the form'
+#    form.add_button('update form', URL('course'))
+#    return dict(message=form)
 
 # ---- API (example) -----
 @auth.requires_login()
@@ -45,15 +51,19 @@ def wiki():
 
 #Image processing
 def capture():
-    import base64
-    import face_recognition
-    image = request.post_vars('value')
-    fh = open("image.png", "wb")
-    fh.write(base64.decodestring(image))
-    fh.close()
-    reco = face_recognition.load_image_file("image.png")
+
+    #image = request.post_vars('value')
+    image = open(os.path.join(current.request.folder, 'images', 'image1.jpeg'), 'rb')
+    image_read = image.read()
+    image_64_encode = base64.encodestring(image_read)
+    image_64_decode = base64.decodestring(image_64_encode)
+    image_result = open(os.path.join(current.request.folder, 'images', 'image.jpeg'), 'wb') # create a writable image and write the decoding result
+    image_result.write(image_64_decode)
+    reco = face_recognition.load_image_file(os.path.join(current.request.folder, 'images', 'image.jpeg'))
     reco_encoding = face_recognition.face_encodings(reco)[0]
-    return reco_encoding
+
+    return json(",".join(map(str,reco_encoding)))
+    #return json("[{id:1,name:abcd},{id:1,name:abcd}]")
 
 
 # ---- Action for login/register/etc (required for auth) -----
